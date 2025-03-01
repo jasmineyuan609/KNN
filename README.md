@@ -1,20 +1,20 @@
-KNN Visualizer is an interactive tool designed to help users understand how the k-Nearest Neighbors (KNN) algorithm works. The tool provides a graphical representation of data points and decision boundaries based on different values of k.
+The KNN Visualizer is an interactive tool designed to demonstrate the working principles of the K-Nearest Neighbors (KNN) algorithm. It allows users to visualize how the algorithm classifies data points based on their nearest neighbors, helping in understanding concepts like decision boundaries and classification in machine learning.
 
 Features
 
-Interactive visualization of the KNN algorithm in action
+Interactive visualization of KNN classification
 
-Adjustable k value to observe classification changes
+Adjustable parameters such as K value, dataset size, and distance metric
 
-Ability to add custom data points and modify datasets
+Support for different datasets and custom data input
 
-Real-time decision boundary updates
+Real-time updates on classification changes
 
-Color-coded classification for better understanding
+Graphical representation of decision boundaries
 
 Installation
 
-To use KNN Visualizer locally, follow these steps:
+To run the KNN Visualizer locally, follow these steps:
 
 Clone the repository:
 
@@ -27,21 +27,23 @@ pip install -r requirements.txt
 
 Run the application:
 
-python main.py
+python knn_visualizer.py
 
 Usage
 
-Start the application and load a dataset.
+Launch the application and select a dataset.
 
-Adjust the k value to explore different classification outcomes.
+Adjust the K value to see how classification changes.
 
-Add new data points and see how the model classifies them.
+Add or remove data points interactively.
 
-Observe real-time changes in the decision boundary.
+Choose a distance metric (e.g., Euclidean, Manhattan).
+
+Observe decision boundaries and classifications in real time.
 
 Dependencies
 
-This project requires:
+The following libraries are required:
 
 Python 3.x
 
@@ -51,18 +53,26 @@ Matplotlib
 
 Scikit-learn
 
-Tkinter (if using a GUI-based visualization)
+Install them using:
+
+pip install numpy matplotlib scikit-learn
 
 Contributing
 
-We welcome contributions! To contribute:
+Contributions are welcome! If you'd like to improve the KNN Visualizer, follow these steps:
 
 Fork the repository.
 
-Create a new branch: git checkout -b feature-name
+Create a new branch:
 
-Commit your changes: git commit -m 'Added new feature'
+git checkout -b feature-branch
 
-Push to the branch: git push origin feature-name
+Make your changes and commit them:
 
-Submit a Pull Request.
+git commit -m "Add new feature"
+
+Push to your branch and create a Pull Request.
+
+License
+
+This project is licensed under the MIT License.
