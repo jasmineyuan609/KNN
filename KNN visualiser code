@@ -1,8 +1,8 @@
-import numpy as np
+mport numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import tkinter as tk
-from tkinter import simpledialog
+from tkinter import ttk
 
 def euclidean_distance(p1, p2):
     return np.sqrt(np.sum((p1 - p2) ** 2))
@@ -28,13 +28,13 @@ def generate_data(num_clusters=2, num_points=100):
     return np.vstack(X), np.array(y)
 
 def plot_knn_visualizer(k=3, num_clusters=2, num_points=100):
-    X, y = generate_data(num_clusters, num_points)
+    X, y = generate_data(int(num_clusters), int(num_points))
     x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
     y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
     xx, yy = np.meshgrid(np.linspace(x_min, x_max, 100), np.linspace(y_min, y_max, 100))
     
     X_test = np.c_[xx.ravel(), yy.ravel()]
-    Z = knn_predict(X, y, X_test, k)
+    Z = knn_predict(X, y, X_test, int(k))
     Z = Z.reshape(xx.shape)
     
     cmap_light = ListedColormap(['#FFAAAA', '#AAAAFF', '#AAFFAA', '#FFD700', '#FFA07A'])
@@ -43,29 +43,42 @@ def plot_knn_visualizer(k=3, num_clusters=2, num_points=100):
     plt.contourf(xx, yy, Z, alpha=0.3, cmap=cmap_light)
     
     scatter = plt.scatter(X[:, 0], X[:, 1], c=y, cmap=cmap_bold, edgecolor='k', s=50)
-    plt.legend(handles=scatter.legend_elements()[0], labels=[f'Class {i}' for i in range(num_clusters)])
-    plt.title(f'K-Nearest Neighbors (k={k}, clusters={num_clusters}, points={num_points})')
+    plt.legend(handles=scatter.legend_elements()[0], labels=[f'Class {i}' for i in range(int(num_clusters))])
+    plt.title(f'K-Nearest Neighbors (k={int(k)}, clusters={int(num_clusters)}, points={int(num_points)})')
     plt.xlabel('Feature 1')
     plt.ylabel('Feature 2')
     plt.show()
 
-def get_user_inputs():
-    root = tk.Tk()
-    root.withdraw()
-    
-    num_clusters = simpledialog.askinteger("Input", "Enter the number of clusters:", minvalue=2, maxvalue=5)
-    if num_clusters is None:
-        num_clusters = 2  # Default value if canceled
-    
-    num_points = simpledialog.askinteger("Input", "Enter the total number of points:", minvalue=50, maxvalue=500)
-    if num_points is None:
-        num_points = 100  # Default value if canceled
-    
-    k = simpledialog.askinteger("Input", "Enter the number of neighbors (k):", minvalue=1, maxvalue=10)
-    if k is None:
-        k = 3  # Default value if canceled
-    
+def update_plot():
+    num_clusters = int(cluster_slider.get())
+    num_points = int(points_slider.get())
+    k = int(k_slider.get())
     plot_knn_visualizer(k=k, num_clusters=num_clusters, num_points=num_points)
 
+def create_gui():
+    global cluster_slider, points_slider, k_slider
+    root = tk.Tk()
+    root.title("KNN Visualizer Settings")
+    
+    ttk.Label(root, text="Number of Clusters").pack()
+    cluster_slider = ttk.Scale(root, from_=2, to=5, orient='horizontal', length=300)
+    cluster_slider.set(2)
+    cluster_slider.pack()
+    
+    ttk.Label(root, text="Total Number of Points").pack()
+    points_slider = ttk.Scale(root, from_=50, to=500, orient='horizontal', length=300)
+    points_slider.set(100)
+    points_slider.pack()
+    
+    ttk.Label(root, text="Number of Neighbors (k)").pack()
+    k_slider = ttk.Scale(root, from_=1, to=10, orient='horizontal', length=300)
+    k_slider.set(3)
+    k_slider.pack()
+    
+    ttk.Button(root, text="Generate Visualization", command=update_plot).pack()
+    
+    root.mainloop()
+
 if __name__ == "__main__":
-    get_user_inputs()
+    create_gui()
+
